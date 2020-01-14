@@ -31,7 +31,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
     // It will listen for messages that will start with `/wel`
     logger.info(message);
     logger.info(channelID);
-    if (message.startsWith('/wel ')) {
+    if (message.startsWith(config.commandprefix)) {
         var args = message.substring(0).split(' ');
         var cmd = args[1];
         var  message = "";
@@ -41,7 +41,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         const userInfo = bot.users[userID];
 
         switch(cmd) {
-            // !ping
+            // /wel ping
             case 'ping':
                 bot.sendMessage({
                     to: config.botRoom,
