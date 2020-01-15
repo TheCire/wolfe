@@ -59,8 +59,8 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 }
                 break;
             case 'available?':
-                    if(!tenttivePlayers.includes(userInfo.username)) {
-                        tenttivePlayers.push(userInfo.username);
+                    if(!tentativePlayers.includes(userInfo.username)) {
+                        tentativePlayers.push(userInfo.username);
                         bot.sendMessage({
                             to: config.botRoom,
                             message: userInfo.username + ' is now tentatively available to play.'
@@ -75,6 +75,14 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                         message: userInfo.username + ' is no longer available to play.'
                     });
                 }
+                if(tentativePlayers.includes(userInfo.username)) {
+                    tentativePlayers = tentativePlayers.filter(e => e !== userInfo.username);
+                    bot.sendMessage({
+                        to: config.botRoom,
+                        message: userInfo.username + ' is no longer tnentatively available to play.'
+                    });
+                }
+
                 break;
             case 'list':
                 message = "There are currently no players available to play.";
@@ -82,7 +90,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     message = "There is/are currently " + availablePlayers.length + " player(s) available to play. The list of available players is/are: " + availablePlayers.join(", ");
                 }
                 if(tentativePlayers.length > 0) {
-                    message += "\nThere is/are currently " + tentativePlayers.length + " player(s) tentatively available to play. The list of tentative players is/are: " + tenttivePlayers.join(", ");
+                    message += "\nThere is/are currently " + tentativePlayers.length + " player(s) tentatively available to play. The list of tentative players is/are: " + tentativePlayers.join(", ");
                 }
                 bot.sendMessage({
                     to: config.botRoom,
