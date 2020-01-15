@@ -10,6 +10,7 @@ var auth = require('./auth.json');
 var config = require('./botconfig.json');
 
 var availablePlayers = [];
+var tentativePlayers = [];
 // Configure logger settings
 logger.remove(logger.transports.Console);
 logger.add(new logger.transports.Console, {
@@ -57,6 +58,15 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                     });
                 }
                 break;
+            case 'available?':
+                    if(!tenttivePlayers.includes(userInfo.username)) {
+                        tenttivePlayers.push(userInfo.username);
+                        bot.sendMessage({
+                            to: config.botRoom,
+                            message: userInfo.username + ' is now tentatively available to play.'
+                        });
+                    }
+                    break;
             case 'unavailable':
                 if(availablePlayers.includes(userInfo.username)) {
                     availablePlayers = availablePlayers.filter(e => e !== userInfo.username);
@@ -70,6 +80,9 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 message = "There are currently no players available to play.";
                 if(availablePlayers.length > 0) {
                     message = "There is/are currently " + availablePlayers.length + " player(s) available to play. The list of available players is/are: " + availablePlayers.join(", ");
+                }
+                if(tentativePlayers.length > 0) {
+                    message += "\nThere is/are currently " + tentativePlayers.length + " player(s) tentatively available to play. The list of tentative players is/are: " + tenttivePlayers.join(", ");
                 }
                 bot.sendMessage({
                     to: config.botRoom,
