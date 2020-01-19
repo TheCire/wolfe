@@ -78,7 +78,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 if(availablePlayers.includes(userInfo.username)) {
                     bot.deleteMessage(msgObj,(err,response)=>{ if(err) console.log(err); })
                     availablePlayers = availablePlayers.filter(e => e !== userInfo.username);
-                    bot.sendMessage({
+                    bot.sendMessage({v 
                         to: config.botRoom,
                         message: userInfo.username + ' is no longer available to play.'
                     });
